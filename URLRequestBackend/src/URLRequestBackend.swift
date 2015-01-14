@@ -9,8 +9,9 @@
 import Foundation
 import Promise
 
-public typealias Result = (request: NSURLRequest, response: NSURLResponse, data: AnyObject?)
-public typealias RequestHandler = (request: NSURLRequest) -> Promise<Result>
+public typealias Request = (request: NSMutableURLRequest, context: AnyObject?)
+public typealias Result = (request: Request, response: NSURLResponse, data: AnyObject?)
+public typealias RequestHandler = (request: Request) -> Promise<Result>
 
 public class Manager {
     private let requestHandler: RequestHandler
@@ -31,14 +32,14 @@ public class Manager {
         self.plugins.append(plugin)
     }
     
-    public func request(request: NSURLRequest) -> Promise<Result> {
+    public func request(request: NSURLRequest, context: AnyObject? = nil) -> Promise<Result> {
         var mutableRequest = request.mutableCopy() as NSMutableURLRequest
-        var requestPromise = Promise<NSMutableURLRequest>.resolve(mutableRequest)
+        var requestPromise = Promise<Request>.resolve((mutableRequest, context))
         for plugin in self.plugins {
-            if let intercept = plugin.interceptRequest {
+            if let intercept = plugin.requestInterceptor() {
                 requestPromise = requestPromise.then(intercept)
             }
-            if let intercept = plugin.interceptRequestError {
+            if let intercept = plugin.requestErrorInterceptor() {
                 requestPromise = requestPromise.catch(intercept)
             }
         }
@@ -46,11 +47,11 @@ public class Manager {
         var responsePromise = requestPromise.then(self.requestHandler)
         
         for plugin in reverse(self.plugins) {
-            if let intercept = plugin.interceptResult {
+            if let intercept = plugin.resultInterceptor() {
                 responsePromise = responsePromise.then(intercept)
             }
             
-            if let intercept = plugin.interceptResultError {
+            if let intercept = plugin.resultErrorInterceptor() {
                 responsePromise = responsePromise.catch(intercept)
             }
         }
@@ -59,10 +60,10 @@ public class Manager {
     }
 }
 
-public func HTTPRequestHandler(request: NSURLRequest) -> Promise<Result> {
+public func HTTPRequestHandler(request: Request) -> Promise<Result> {
     return Promise<Result>({ (deferred) -> () in
         let queue = NSOperationQueue()
-        NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response, data, error) -> Void in
+        NSURLConnection.sendAsynchronousRequest(request.request, queue: queue, completionHandler: { (response, data, error) -> Void in
             if error == nil {
                 deferred.resolve((request, response, data))
             } else {
@@ -73,19 +74,30 @@ public func HTTPRequestHandler(request: NSURLRequest) -> Promise<Result> {
 }
 
 public protocol PluginProtocol {
-    var interceptRequest: ((request: NSMutableURLRequest) -> Promise<NSMutableURLRequest>)? { get }
-    var interceptRequestError: ((error: NSError) -> Promise<NSMutableURLRequest>)? { get }
-    var interceptResult: ((result: Result) -> Promise<Result>)? { get }
-    var interceptResultError: ((error: NSError) -> Promise<Result>)? { get }
+    func requestInterceptor() -> (Request -> Promise<Request>)?
+    func requestErrorInterceptor() -> (NSError -> Promise<Request>)?
+    func resultInterceptor() -> (Result -> Promise<Result>)?
+    func resultErrorInterceptor() -> (NSError -> Promise<Result>)?
 }
 
 public struct Plugin {
     public class Base: PluginProtocol {
         public init() {}
-        public var interceptRequest: ((request: NSMutableURLRequest) -> Promise<NSMutableURLRequest>)?
-        public var interceptRequestError: ((error: NSError) -> Promise<NSMutableURLRequest>)?
-        public var interceptResult: ((result: Result) -> Promise<Result>)?
-        public var interceptResultError: ((error: NSError) -> Promise<Result>)?
+        public func requestInterceptor() -> (Request -> Promise<Request>)? {
+            return nil
+        }
+        
+        public func requestErrorInterceptor() -> (NSError -> Promise<Request>)? {
+            return nil
+        }
+        
+        public func resultInterceptor() -> (Result -> Promise<Result>)? {
+            return nil
+        }
+
+        public func resultErrorInterceptor() -> (NSError -> Promise<Result>)? {
+            return nil
+        }
     }
 }
 
@@ -94,11 +106,13 @@ extension Plugin {
         let option: NSJSONReadingOptions
         public init(option: NSJSONReadingOptions = .AllowFragments) {
             self.option = option
-            super.init()
-            self.interceptResult = self._interceptResult
         }
         
-        func _interceptResult(result: Result) -> Promise<Result> {
+        public override func resultInterceptor() -> (Result -> Promise<Result>)? {
+            return self._interceptResult
+        }
+        
+        private func _interceptResult(result: Result) -> Promise<Result> {
             if let data = result.data? as? NSData {
                 let (json: AnyObject?, error) = self.parse(data)
                 if let e = error {
