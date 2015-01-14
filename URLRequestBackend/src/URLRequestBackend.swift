@@ -19,6 +19,13 @@ public protocol Plugin {
     var interceptResponseError: ((error: NSError) -> Promise<Response>)? { get }
 }
 
+public class PluginBase: Plugin {
+    public var interceptRequest: ((request: NSMutableURLRequest) -> Promise<NSMutableURLRequest>)?
+    public var interceptRequestError: ((error: NSError) -> Promise<NSMutableURLRequest>)?
+    public var interceptResponse: ((response: Response) -> Promise<Response>)?
+    public var interceptResponseError: ((error: NSError) -> Promise<Response>)?
+}
+
 public class Manager {
     private let requestHandler: RequestHandler
     private var plugins = [Plugin]()
