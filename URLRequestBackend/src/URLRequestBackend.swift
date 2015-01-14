@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Either
 import Promise
 
 public typealias Request = (request: NSMutableURLRequest, context: AnyObject?)
@@ -79,28 +80,28 @@ public func HTTPRequestHandler(manager: Manager) -> RequestHandler {
 }
 
 public protocol PluginProtocol {
-    func requestInterceptor() -> (Request -> Promise<Request>)?
-    func requestErrorInterceptor() -> (NSError -> Promise<Request>)?
-    func resultInterceptor() -> (Result -> Promise<Result>)?
-    func resultErrorInterceptor() -> (NSError -> Promise<Result>)?
+    func requestInterceptor() -> (Request -> Either<Request, Promise<Request>>)?
+    func requestErrorInterceptor() -> (NSError -> Either<Request, Promise<Request>>)?
+    func resultInterceptor() -> (Result -> Either<Result, Promise<Result>>)?
+    func resultErrorInterceptor() -> (NSError -> Either<Result, Promise<Result>>)?
 }
 
 public struct Plugin {
     public class Base: PluginProtocol {
         public init() {}
-        public func requestInterceptor() -> (Request -> Promise<Request>)? {
+        public func requestInterceptor() -> (Request -> Either<Request, Promise<Request>>)? {
             return nil
         }
         
-        public func requestErrorInterceptor() -> (NSError -> Promise<Request>)? {
+        public func requestErrorInterceptor() -> (NSError -> Either<Request, Promise<Request>>)? {
             return nil
         }
         
-        public func resultInterceptor() -> (Result -> Promise<Result>)? {
+        public func resultInterceptor() -> (Result -> Either<Result, Promise<Result>>)? {
             return nil
         }
 
-        public func resultErrorInterceptor() -> (NSError -> Promise<Result>)? {
+        public func resultErrorInterceptor() -> (NSError -> Either<Result, Promise<Result>>)? {
             return nil
         }
     }
@@ -113,19 +114,19 @@ extension Plugin {
             self.option = option
         }
         
-        public override func resultInterceptor() -> (Result -> Promise<Result>)? {
+        public override func resultInterceptor() -> (Result -> Either<Result, Promise<Result>>)? {
             return self._interceptResult
         }
         
-        private func _interceptResult(result: Result) -> Promise<Result> {
+        private func _interceptResult(result: Result) -> Either<Result, Promise<Result>> {
             if let data = result.data? as? NSData {
                 let (json: AnyObject?, error) = self.parse(data)
                 if let e = error {
-                    return Promise<Result>.reject(e)
+                    return Either<Result, Promise<Result>>.bind(Promise<Result>.reject(e))
                 }
-                return Promise<Result>.resolve((result.request, result.response, json))
+                return Either<Result, Promise<Result>>.bind((result.request, result.response, json))
             }
-            return Promise<Result>.resolve(result)
+            return Either<Result, Promise<Result>>.bind(result)
         }
         
         public func parse(data: NSData!) -> (AnyObject?, NSError?) {
