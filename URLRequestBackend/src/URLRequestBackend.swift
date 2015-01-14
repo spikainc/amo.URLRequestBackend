@@ -11,10 +11,13 @@ import Promise
 
 public typealias Request = (request: NSMutableURLRequest, context: AnyObject?)
 public typealias Result = (request: Request, response: NSURLResponse, data: AnyObject?)
-public typealias RequestHandler = (request: Request) -> Promise<Result>
+public typealias RequestHandler = (Request -> Promise<Result>)
+
+private let defaultOperationQueue = NSOperationQueue()
 
 public class Manager {
-    private let requestHandler: RequestHandler
+    private let operationQueue: NSOperationQueue
+    private let requestHandler: Manager -> RequestHandler
     private var plugins = [PluginProtocol]()
     
     public class var sharedInstance: Manager {
@@ -24,8 +27,9 @@ public class Manager {
         return Shared.instance
     }
     
-    public init(requestHandler: RequestHandler = HTTPRequestHandler) {
+    public init(requestHandler: (Manager -> RequestHandler) = HTTPRequestHandler, operationQueue: NSOperationQueue = defaultOperationQueue) {
         self.requestHandler = requestHandler
+        self.operationQueue = operationQueue
     }
     
     public func addPlugin(plugin: PluginProtocol) {
@@ -44,7 +48,7 @@ public class Manager {
             }
         }
         
-        var responsePromise = requestPromise.then(self.requestHandler)
+        var responsePromise = requestPromise.then(self.requestHandler(self))
         
         for plugin in reverse(self.plugins) {
             if let intercept = plugin.resultInterceptor() {
@@ -60,17 +64,18 @@ public class Manager {
     }
 }
 
-public func HTTPRequestHandler(request: Request) -> Promise<Result> {
-    return Promise<Result>({ (deferred) -> () in
-        let queue = NSOperationQueue()
-        NSURLConnection.sendAsynchronousRequest(request.request, queue: queue, completionHandler: { (response, data, error) -> Void in
-            if error == nil {
-                deferred.resolve((request, response, data))
-            } else {
-                deferred.reject(error)
-            }
+public func HTTPRequestHandler(manager: Manager) -> RequestHandler {
+    return { (request: Request) -> Promise<Result> in
+        return Promise<Result>({ (deferred) -> () in
+            NSURLConnection.sendAsynchronousRequest(request.request, queue: manager.operationQueue, completionHandler: { (response, data, error) -> Void in
+                if error == nil {
+                    deferred.resolve((request, response, data))
+                } else {
+                    deferred.reject(error)
+                }
+            })
         })
-    })
+    }
 }
 
 public protocol PluginProtocol {
