@@ -8,6 +8,7 @@
 
 import UIKit
 import XCTest
+import URLRequestBackend
 
 class URLRequestBackendTests: XCTestCase {
     
@@ -21,16 +22,7 @@ class URLRequestBackendTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+    func test_sharedInstanceは同じインスタンスを返す() {
+        XCTAssertTrue(URLRequestBackend.Manager.sharedInstance === URLRequestBackend.Manager.sharedInstance)
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }

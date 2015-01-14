@@ -9,33 +9,36 @@
 import Foundation
 import Promise
 
-public typealias URLResponse = (request: NSURLRequest, response: NSURLResponse, data: NSData)
-public typealias URLRequestHandler = (request: NSURLRequest) -> Promise<URLResponse>
+public typealias Response = (request: NSURLRequest, response: NSURLResponse, data: NSData)
+public typealias RequestHandler = (request: NSURLRequest) -> Promise<Response>
 
-public protocol URLRequestPlugin {
+public protocol Plugin {
     var interceptRequest: ((request: NSMutableURLRequest) -> Promise<NSMutableURLRequest>)? { get }
     var interceptRequestError: ((error: NSError) -> Promise<NSMutableURLRequest>)? { get }
-    var interceptResponse: ((response: URLResponse) -> Promise<URLResponse>)? { get }
-    var interceptResponseError: ((error: NSError) -> Promise<URLResponse>)? { get }
+    var interceptResponse: ((response: Response) -> Promise<Response>)? { get }
+    var interceptResponseError: ((error: NSError) -> Promise<Response>)? { get }
 }
 
-public class URLRequestBackend {
-    private let defaultRequestHandler: URLRequestHandler
-    private var plugins = [URLRequestPlugin]()
+public class Manager {
+    private let requestHandler: RequestHandler
+    private var plugins = [Plugin]()
     
-    public init(defaultRequestHandler: URLRequestHandler) {
-        self.defaultRequestHandler = defaultRequestHandler
+    public class var sharedInstance: Manager {
+        struct Shared {
+            static let instance = Manager(HTTPRequestHandler)
+        }
+        return Shared.instance
     }
     
-    public func addPlugin(plugin: URLRequestPlugin) {
+    public init(requestHandler: RequestHandler) {
+        self.requestHandler = requestHandler
+    }
+    
+    public func addPlugin(plugin: Plugin) {
         self.plugins.append(plugin)
     }
     
-    public func request(request: NSURLRequest, requestHandler: URLRequestHandler! = nil) -> Promise<URLResponse> {
-        var sendRequest = self.defaultRequestHandler
-        if requestHandler != nil {
-            sendRequest = requestHandler!
-        }
+    public func request(request: NSURLRequest) -> Promise<Response> {
         var mutableRequest = request.mutableCopy() as NSMutableURLRequest
         var requestPromise = Promise<NSMutableURLRequest>.resolve(mutableRequest)
         for plugin in self.plugins {
@@ -47,7 +50,7 @@ public class URLRequestBackend {
             }
         }
         
-        var responsePromise = requestPromise.then(sendRequest)
+        var responsePromise = requestPromise.then(self.requestHandler)
         
         for plugin in reverse(self.plugins) {
             if let intercept = plugin.interceptResponse {
@@ -63,8 +66,8 @@ public class URLRequestBackend {
     }
 }
 
-public func HTTPRequestHandler(request: NSURLRequest) -> Promise<URLResponse> {
-    return Promise<URLResponse>({ (deferred) -> () in
+public func HTTPRequestHandler(request: NSURLRequest) -> Promise<Response> {
+    return Promise<Response>({ (deferred) -> () in
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(request, queue: queue, completionHandler: { (response, data, error) -> Void in
             if error == nil {
