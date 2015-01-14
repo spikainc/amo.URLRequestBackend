@@ -11,6 +11,7 @@
 		BB597B731A656D36002EEF5D /* URLRequestBackend.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB597B671A656D36002EEF5D /* URLRequestBackend.framework */; };
 		BB597B7A1A656D36002EEF5D /* URLRequestBackendTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB597B791A656D36002EEF5D /* URLRequestBackendTests.swift */; };
 		BB597B851A656D60002EEF5D /* URLRequestBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB597B841A656D60002EEF5D /* URLRequestBackend.swift */; };
+		BBA410761A660996007F920F /* Promise.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BBA410701A660973007F920F /* Promise.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -21,7 +22,42 @@
 			remoteGlobalIDString = BB597B661A656D36002EEF5D;
 			remoteInfo = URLRequestBackend;
 		};
+		BBA4106F1A660973007F920F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBA410691A660973007F920F /* Promise.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B98846051A60FB16001B6D4C;
+			remoteInfo = Promise;
+		};
+		BBA410711A660973007F920F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBA410691A660973007F920F /* Promise.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B98846101A60FB16001B6D4C;
+			remoteInfo = PromiseTests;
+		};
+		BBA410731A660980007F920F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBA410691A660973007F920F /* Promise.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B98846041A60FB16001B6D4C;
+			remoteInfo = Promise;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BBA410751A660983007F920F /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BBA410761A660996007F920F /* Promise.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		BB597B671A656D36002EEF5D /* URLRequestBackend.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = URLRequestBackend.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,6 +67,7 @@
 		BB597B781A656D36002EEF5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB597B791A656D36002EEF5D /* URLRequestBackendTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBackendTests.swift; sourceTree = "<group>"; };
 		BB597B841A656D60002EEF5D /* URLRequestBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLRequestBackend.swift; sourceTree = "<group>"; };
+		BBA410691A660973007F920F /* Promise.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Promise.xcodeproj; path = vendor/Promise/Promise.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +110,7 @@
 		BB597B691A656D36002EEF5D /* URLRequestBackend */ = {
 			isa = PBXGroup;
 			children = (
+				BBA410681A660964007F920F /* vendor */,
 				BB597B831A656D48002EEF5D /* src */,
 				BB597B6C1A656D36002EEF5D /* URLRequestBackend.h */,
 				BB597B6A1A656D36002EEF5D /* Supporting Files */,
@@ -113,6 +151,23 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		BBA410681A660964007F920F /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				BBA410691A660973007F920F /* Promise.xcodeproj */,
+			);
+			name = vendor;
+			sourceTree = "<group>";
+		};
+		BBA4106A1A660973007F920F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BBA410701A660973007F920F /* Promise.framework */,
+				BBA410721A660973007F920F /* PromiseTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -135,10 +190,12 @@
 				BB597B631A656D36002EEF5D /* Frameworks */,
 				BB597B641A656D36002EEF5D /* Headers */,
 				BB597B651A656D36002EEF5D /* Resources */,
+				BBA410751A660983007F920F /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BBA410741A660980007F920F /* PBXTargetDependency */,
 			);
 			name = URLRequestBackend;
 			productName = URLRequestBackend;
@@ -190,6 +247,12 @@
 			mainGroup = BB597B5D1A656D36002EEF5D;
 			productRefGroup = BB597B681A656D36002EEF5D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BBA4106A1A660973007F920F /* Products */;
+					ProjectRef = BBA410691A660973007F920F /* Promise.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				BB597B661A656D36002EEF5D /* URLRequestBackend */,
@@ -197,6 +260,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BBA410701A660973007F920F /* Promise.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Promise.framework;
+			remoteRef = BBA4106F1A660973007F920F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BBA410721A660973007F920F /* PromiseTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PromiseTests.xctest;
+			remoteRef = BBA410711A660973007F920F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BB597B651A656D36002EEF5D /* Resources */ = {
@@ -239,6 +319,11 @@
 			isa = PBXTargetDependency;
 			target = BB597B661A656D36002EEF5D /* URLRequestBackend */;
 			targetProxy = BB597B741A656D36002EEF5D /* PBXContainerItemProxy */;
+		};
+		BBA410741A660980007F920F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Promise;
+			targetProxy = BBA410731A660980007F920F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -410,6 +495,7 @@
 				BB597B7F1A656D36002EEF5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BB597B801A656D36002EEF5D /* Build configuration list for PBXNativeTarget "URLRequestBackendTests" */ = {
 			isa = XCConfigurationList;
@@ -418,6 +504,7 @@
 				BB597B821A656D36002EEF5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
