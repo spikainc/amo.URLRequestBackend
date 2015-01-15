@@ -11,6 +11,10 @@
 		BB597B731A656D36002EEF5D /* URLRequestBackend.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB597B671A656D36002EEF5D /* URLRequestBackend.framework */; };
 		BB597B7A1A656D36002EEF5D /* URLRequestBackendTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB597B791A656D36002EEF5D /* URLRequestBackendTests.swift */; };
 		BB597B851A656D60002EEF5D /* URLRequestBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB597B841A656D60002EEF5D /* URLRequestBackend.swift */; };
+		BB5E282A1A679AC100FCF1E3 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E28291A679AC100FCF1E3 /* Plugin.swift */; };
+		BB5E282C1A679B0900FCF1E3 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E282B1A679B0900FCF1E3 /* JsonParser.swift */; };
+		BB5E282E1A679B3D00FCF1E3 /* QueryEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E282D1A679B3D00FCF1E3 /* QueryEncoder.swift */; };
+		BB5E28301A679B5E00FCF1E3 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E282F1A679B5E00FCF1E3 /* Util.swift */; };
 		BBA410761A660996007F920F /* Promise.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BBA410701A660973007F920F /* Promise.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BBA410E81A66B5D2007F920F /* Either.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BBA410E21A66B5C3007F920F /* Either.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -90,6 +94,10 @@
 		BB597B781A656D36002EEF5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB597B791A656D36002EEF5D /* URLRequestBackendTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBackendTests.swift; sourceTree = "<group>"; };
 		BB597B841A656D60002EEF5D /* URLRequestBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLRequestBackend.swift; sourceTree = "<group>"; };
+		BB5E28291A679AC100FCF1E3 /* Plugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plugin.swift; sourceTree = "<group>"; };
+		BB5E282B1A679B0900FCF1E3 /* JsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
+		BB5E282D1A679B3D00FCF1E3 /* QueryEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryEncoder.swift; sourceTree = "<group>"; };
+		BB5E282F1A679B5E00FCF1E3 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		BBA410691A660973007F920F /* Promise.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Promise.xcodeproj; path = vendor/Promise/Promise.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BBA410DC1A66B5C3007F920F /* Either.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Either.xcodeproj; path = ../vendor/Promise/vendor/amo.Either/Either.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,9 +178,21 @@
 		BB597B831A656D48002EEF5D /* src */ = {
 			isa = PBXGroup;
 			children = (
+				BB5E28261A679AA400FCF1E3 /* plugins */,
 				BB597B841A656D60002EEF5D /* URLRequestBackend.swift */,
+				BB5E28291A679AC100FCF1E3 /* Plugin.swift */,
+				BB5E282F1A679B5E00FCF1E3 /* Util.swift */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		BB5E28261A679AA400FCF1E3 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				BB5E282B1A679B0900FCF1E3 /* JsonParser.swift */,
+				BB5E282D1A679B3D00FCF1E3 /* QueryEncoder.swift */,
+			);
+			path = plugins;
 			sourceTree = "<group>";
 		};
 		BBA410681A660964007F920F /* vendor */ = {
@@ -353,7 +373,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB5E282A1A679AC100FCF1E3 /* Plugin.swift in Sources */,
 				BB597B851A656D60002EEF5D /* URLRequestBackend.swift in Sources */,
+				BB5E28301A679B5E00FCF1E3 /* Util.swift in Sources */,
+				BB5E282C1A679B0900FCF1E3 /* JsonParser.swift in Sources */,
+				BB5E282E1A679B3D00FCF1E3 /* QueryEncoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
