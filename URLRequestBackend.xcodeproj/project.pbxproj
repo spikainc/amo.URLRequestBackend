@@ -161,7 +161,7 @@
 		BB597B761A656D36002EEF5D /* URLRequestBackendTests */ = {
 			isa = PBXGroup;
 			children = (
-				BB597B791A656D36002EEF5D /* URLRequestBackendTests.swift */,
+				BB5E28311A679C2000FCF1E3 /* tests */,
 				BB597B771A656D36002EEF5D /* Supporting Files */,
 			);
 			path = URLRequestBackendTests;
@@ -193,6 +193,14 @@
 				BB5E282D1A679B3D00FCF1E3 /* QueryEncoder.swift */,
 			);
 			path = plugins;
+			sourceTree = "<group>";
+		};
+		BB5E28311A679C2000FCF1E3 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				BB597B791A656D36002EEF5D /* URLRequestBackendTests.swift */,
+			);
+			path = tests;
 			sourceTree = "<group>";
 		};
 		BBA410681A660964007F920F /* vendor */ = {
