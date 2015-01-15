@@ -1,5 +1,5 @@
 //
-//  QueryEncoder.swift
+//  FormURLEncoder.swift
 //  URLRequestBackend
 //
 //  Created by 安野周太郎 on 2015/01/15.
@@ -11,7 +11,7 @@ import Either
 import Promise
 
 extension Plugin {
-    public class QueryEncoder: Base {
+    public class FormURLEncoder: Base {
         let parametersKey: String
         
         public init(parametersKey: String = "parameters") {
@@ -33,9 +33,12 @@ extension Plugin {
                 return request
             }
             
+            if request.request.valueForHTTPHeaderField("Content-Type") == nil {
+               request.request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            }
+            
             let query = Util.escapeParameters(parameters!)
-            urlComponents.percentEncodedQuery = (urlComponents.percentEncodedQuery != nil ? urlComponents.percentEncodedQuery! + "&" : "") + query
-            request.request.URL = urlComponents.URL
+            request.request.HTTPBody = query.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
             
             return request
         }
