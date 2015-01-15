@@ -11,7 +11,7 @@ import Either
 import Promise
 
 public typealias Request = (request: NSMutableURLRequest, context: AnyObject?)
-public typealias Result = (request: Request, response: NSURLResponse, data: AnyObject?)
+public typealias Result = (request: Request, response: NSURLResponse!, data: AnyObject?)
 public typealias RequestHandler = (Request -> Promise<Result>)
 
 private let defaultOperationQueue = NSOperationQueue()
