@@ -25,9 +25,9 @@ class UtilTests: XCTestCase {
     func parametersで渡した値がURL内にクエリとして入るDataProvider() -> [([String: AnyObject], String)] {
         return [
             (["a": "b", "c": "d"], "a=b&c=d"),
-            (["a": ["b", "c", "d"]], "a[]=b&a[]=c&a[]=d"),
-            (["a": ["b": "c", "d": "e"]], "a[b]=c&a[d]=e"),
-            (["a": ["b": ["c", "d"]]], "a[b][]=c&a[b][]=d"),
+            (["a": ["b", "c", "d"]], "a%5B%5D=b&a%5B%5D=c&a%5B%5D=d"),
+            (["a": ["b": "c", "d": "e"]], "a%5Bb%5D=c&a%5Bd%5D=e"),
+            (["a": ["b": ["c", "d"]]], "a%5Bb%5D%5B%5D=c&a%5Bb%5D%5B%5D=d"),
             ([" !\"#$%&'()*+,/:;<=>?@[\\]^`{|}": " !\"#$%&'()*+,/:;<=>?@[\\]^`{|}"], "%20%21%22%23%24%25%26%27%28%29%2A%2B%2C%2F%3A%3B%3C%3D%3E%3F%40%5B%5C%5D%5E%60%7B%7C%7D=%20%21%22%23%24%25%26%27%28%29%2A%2B%2C%2F%3A%3B%3C%3D%3E%3F%40%5B%5C%5D%5E%60%7B%7C%7D"),
             ([
                 "str": "b",
@@ -63,7 +63,7 @@ class UtilTests: XCTestCase {
                         "dict": ["hoge": "fuga", "fizz": "buzz"],
                     ],
                 ]
-                ], "str=b&num=100&strnum=100&array[]=a&array[]=b&array[]=c&dict[hoge]=fuga&dict[fizz]=buzz&recursive[str]=b&recursive[num]=100&recursive[strnum]=100&recursive[array][]=a&recursive[array][]=b&recursive[array][]=c&recursive[dict][hoge]=fuga&recursive[dict][fizz]=buzz&recursiveArray[][str]=b&recursiveArray[][num]=100&recursiveArray[][strnum]=100&recursiveArray[][array][]=a&recursiveArray[][array][]=b&recursiveArray[][array][]=c&recursiveArray[][dict][hoge]=fuga&recursiveArray[][dict][fizz]=buzz&recursiveArray[][str]=b&recursiveArray[][num]=100&recursiveArray[][strnum]=100&recursiveArray[][array][]=a&recursiveArray[][array][]=b&recursiveArray[][array][]=c&recursiveArray[][dict][hoge]=fuga&recursiveArray[][dict][fizz]=buzz&recursiveArray[][str]=b&recursiveArray[][num]=100&recursiveArray[][strnum]=100&recursiveArray[][array][]=a&recursiveArray[][array][]=b&recursiveArray[][array][]=c&recursiveArray[][dict][hoge]=fuga&recursiveArray[][dict][fizz]=buzz"),
+            ], "str=b&num=100&strnum=100&array%5B%5D=a&array%5B%5D=b&array%5B%5D=c&dict%5Bhoge%5D=fuga&dict%5Bfizz%5D=buzz&recursive%5Bstr%5D=b&recursive%5Bnum%5D=100&recursive%5Bstrnum%5D=100&recursive%5Barray%5D%5B%5D=a&recursive%5Barray%5D%5B%5D=b&recursive%5Barray%5D%5B%5D=c&recursive%5Bdict%5D%5Bhoge%5D=fuga&recursive%5Bdict%5D%5Bfizz%5D=buzz&recursiveArray%5B%5D%5Bstr%5D=b&recursiveArray%5B%5D%5Bnum%5D=100&recursiveArray%5B%5D%5Bstrnum%5D=100&recursiveArray%5B%5D%5Barray%5D%5B%5D=a&recursiveArray%5B%5D%5Barray%5D%5B%5D=b&recursiveArray%5B%5D%5Barray%5D%5B%5D=c&recursiveArray%5B%5D%5Bdict%5D%5Bhoge%5D=fuga&recursiveArray%5B%5D%5Bdict%5D%5Bfizz%5D=buzz&recursiveArray%5B%5D%5Bstr%5D=b&recursiveArray%5B%5D%5Bnum%5D=100&recursiveArray%5B%5D%5Bstrnum%5D=100&recursiveArray%5B%5D%5Barray%5D%5B%5D=a&recursiveArray%5B%5D%5Barray%5D%5B%5D=b&recursiveArray%5B%5D%5Barray%5D%5B%5D=c&recursiveArray%5B%5D%5Bdict%5D%5Bhoge%5D=fuga&recursiveArray%5B%5D%5Bdict%5D%5Bfizz%5D=buzz&recursiveArray%5B%5D%5Bstr%5D=b&recursiveArray%5B%5D%5Bnum%5D=100&recursiveArray%5B%5D%5Bstrnum%5D=100&recursiveArray%5B%5D%5Barray%5D%5B%5D=a&recursiveArray%5B%5D%5Barray%5D%5B%5D=b&recursiveArray%5B%5D%5Barray%5D%5B%5D=c&recursiveArray%5B%5D%5Bdict%5D%5Bhoge%5D=fuga&recursiveArray%5B%5D%5Bdict%5D%5Bfizz%5D=buzz"),
         ]
     }
     func test_parametersで渡した値がURL内にクエリとして入る() {

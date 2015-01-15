@@ -12,7 +12,7 @@ public struct Util {
     public static func escapeParameters(parameters: [String : AnyObject]) -> String {
         var components = [String]()
         for (key, value) in parameters {
-            components += escapeComponents(escapeString(key), value)
+            components += escapeComponents(key, value)
         }
         
         return join("&", components)
@@ -22,7 +22,7 @@ public struct Util {
         var components = [String]()
         if let d = value as? [String: AnyObject] {
             for (k, v) in d {
-                components += escapeComponents("\(key)[\(escapeString(k))]", v)
+                components += escapeComponents("\(key)[\(k)]", v)
             }
         } else if let a = value as? [AnyObject] {
             for v in a {
@@ -30,7 +30,7 @@ public struct Util {
             }
         } else {
             let s = "\(value)"
-            components.append("\(key)=\(escapeString(s))")
+            components.append("\(escapeString(key))=\(escapeString(s))")
         }
         return components
     }
