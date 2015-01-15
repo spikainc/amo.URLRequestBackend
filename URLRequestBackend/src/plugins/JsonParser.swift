@@ -18,10 +18,10 @@ extension Plugin {
         }
         
         public override func resultInterceptor() -> (Result -> Either<Result, Promise<Result>>)? {
-            return self._interceptResult
+            return self.interceptResult
         }
         
-        private func _interceptResult(result: Result) -> Either<Result, Promise<Result>> {
+        public func interceptResult(result: Result) -> Either<Result, Promise<Result>> {
             if let data = result.data? as? NSData {
                 let (json: AnyObject?, error) = self.parse(data)
                 if let e = error {
