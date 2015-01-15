@@ -142,3 +142,60 @@ extension Plugin {
     }
 }
 
+extension Plugin {
+    public class QueryEncoder: Base {
+        public override func requestInterceptor() -> (Request -> Either<Request, Promise<Request>>)? {
+            return Either<Request, Promise<Request>>.bindFunc(interceptRequest)
+        }
+        
+        public func interceptRequest(request: Request) -> Request {
+            let parameters = request.context?["paramerets"]? as? [String: AnyObject]
+            if parameters == nil {
+                return request
+            }
+            
+            let urlComponents: NSURLComponents! = NSURLComponents(URL: request.request.URL!, resolvingAgainstBaseURL: false)
+            if urlComponents == nil {
+                return request
+            }
+            
+            let query = Util.escapeParameters(parameters!)
+            urlComponents.percentEncodedQuery = (urlComponents.percentEncodedQuery != nil ? urlComponents.percentEncodedQuery! + "&" : "") + query
+            request.request.URL = urlComponents.URL
+            
+            return request
+        }
+    }
+}
+
+public struct Util {
+    public static func escapeParameters(parameters: [String : AnyObject]) -> String {
+        var components = [String]()
+        for (key, value) in parameters {
+            components += escapeComponents(escapeString(key), value)
+        }
+        
+        return join("&", components)
+    }
+    
+    public static func escapeComponents(key: String, _ value: AnyObject) -> [String] {
+        var components = [String]()
+        if let d = value as? [String: AnyObject] {
+            for (k, v) in d {
+                components += escapeComponents("\(key)[\(escapeString(k))]", v)
+            }
+        } else if let a = value as? [AnyObject] {
+            for v in a {
+                components += escapeComponents("\(key)[]", v)
+            }
+        } else {
+            let s = "\(value)"
+            components.append("\(key)=\(escapeString(s))")
+        }
+        return components
+    }
+    
+    public static func escapeString(s: String) -> String {
+        return CFURLCreateStringByAddingPercentEscapes(nil, s, nil, " !\"#$%&'()*+,/:;<=>?@[\\]^`{|}", CFStringBuiltInEncodings.UTF8.rawValue)
+    }
+}
