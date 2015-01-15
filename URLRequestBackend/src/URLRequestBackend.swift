@@ -49,19 +49,19 @@ public class Manager {
             }
         }
         
-        var responsePromise = requestPromise.then(self.requestHandler(self))
+        var resultPromise = requestPromise.then(self.requestHandler(self))
         
         for plugin in reverse(self.plugins) {
             if let intercept = plugin.resultInterceptor() {
-                responsePromise = responsePromise.then(intercept)
+                resultPromise = resultPromise.then(intercept)
             }
             
             if let intercept = plugin.resultErrorInterceptor() {
-                responsePromise = responsePromise.catch(intercept)
+                resultPromise = resultPromise.catch(intercept)
             }
         }
         
-        return responsePromise
+        return resultPromise
     }
 }
 
