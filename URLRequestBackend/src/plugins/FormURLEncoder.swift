@@ -23,6 +23,8 @@ extension Plugin {
         }
         
         public func interceptRequest(request: Request) -> Request {
+            request.request.HTTPMethod = "POST"
+            
             let parameters = request.context?[parametersKey]? as? [String: AnyObject]
             if parameters == nil {
                 return request
@@ -33,12 +35,16 @@ extension Plugin {
                 return request
             }
             
+            
             if request.request.valueForHTTPHeaderField("Content-Type") == nil {
                request.request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             }
             
             let query = Util.escapeParameters(parameters!)
-            request.request.HTTPBody = query.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+            if let data = query.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                request.request.HTTPBody = data
+                request.request.setValue("\(data.length)", forHTTPHeaderField: "Content-Length")
+            }
             
             return request
         }

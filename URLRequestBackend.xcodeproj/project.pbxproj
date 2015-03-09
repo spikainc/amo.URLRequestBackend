@@ -21,6 +21,7 @@
 		BB5E283A1A67A39100FCF1E3 /* FormURLEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E28391A67A39100FCF1E3 /* FormURLEncoder.swift */; };
 		BBA410761A660996007F920F /* Promise.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BBA410701A660973007F920F /* Promise.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BBA410E81A66B5D2007F920F /* Either.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BBA410E21A66B5C3007F920F /* Either.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D95429EA1AAD4C9F00A52A1A /* FormURLEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95429E91AAD4C9F00A52A1A /* FormURLEncoderTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		BB5E28391A67A39100FCF1E3 /* FormURLEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormURLEncoder.swift; sourceTree = "<group>"; };
 		BBA410691A660973007F920F /* Promise.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Promise.xcodeproj; path = vendor/Promise/Promise.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BBA410DC1A66B5C3007F920F /* Either.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Either.xcodeproj; path = ../vendor/Promise/vendor/amo.Either/Either.xcodeproj; sourceTree = "<group>"; };
+		D95429E91AAD4C9F00A52A1A /* FormURLEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormURLEncoderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 			children = (
 				BB5E28331A679D0100FCF1E3 /* JsonParser.swift */,
 				BB5E28351A679D6000FCF1E3 /* QueryEncoderTests.swift */,
+				D95429E91AAD4C9F00A52A1A /* FormURLEncoderTests.swift */,
 			);
 			path = plugins;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D95429EA1AAD4C9F00A52A1A /* FormURLEncoderTests.swift in Sources */,
 				BB5E28361A679D6000FCF1E3 /* QueryEncoderTests.swift in Sources */,
 				BB5E28341A679D0100FCF1E3 /* JsonParser.swift in Sources */,
 				BB597B7A1A656D36002EEF5D /* URLRequestBackendTests.swift in Sources */,
