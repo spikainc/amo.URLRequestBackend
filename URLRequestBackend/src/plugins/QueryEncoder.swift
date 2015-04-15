@@ -23,7 +23,7 @@ extension Plugin {
         }
         
         public func interceptRequest(request: Request) -> Request {
-            let parameters = request.context?[parametersKey]? as? [String: AnyObject]
+            let parameters = request.context?[parametersKey] as? [String: AnyObject]
             if parameters == nil {
                 return request
             }

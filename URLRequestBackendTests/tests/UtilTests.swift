@@ -71,7 +71,7 @@ class UtilTests: XCTestCase {
             let request = NSMutableURLRequest(URL: NSURL(string: "http://localhost:8000/")!)
             let expected = params.1
             let actual = URLRequestBackend.Util.escapeParameters(params.0)
-            XCTAssertEqual(sorted((split(expected, { $0 == "&"}))), sorted((split(actual, { $0 == "&"}))))
+            XCTAssertEqual(sorted((split(expected, isSeparator: { $0 == "&" }))), sorted((split(actual, isSeparator: { $0 == "&" }))))
         }
     }
 }

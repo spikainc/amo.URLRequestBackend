@@ -25,7 +25,7 @@ extension Plugin {
         public func interceptRequest(request: Request) -> Request {
             request.request.HTTPMethod = "POST"
             
-            let parameters = request.context?[parametersKey]? as? [String: AnyObject]
+            let parameters = request.context?[parametersKey] as? [String: AnyObject]
             if parameters == nil {
                 return request
             }
