@@ -31,7 +31,7 @@ class FormURLEncoderTests: XCTestCase {
             ]
         )
         
-        let parameters = request.context?["parameters"]? as? [String: AnyObject]
+        let parameters = request.context?["parameters"] as? [String: AnyObject]
         let query = Util.escapeParameters(parameters!)
         let data = query.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
         let actual = self.plugin.interceptRequest(request)

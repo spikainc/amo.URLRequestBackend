@@ -22,7 +22,7 @@ extension Plugin {
         }
         
         public func interceptResult(result: Result) -> Either<Result, Promise<Result>> {
-            if let data = result.data? as? NSData {
+            if let data = result.data as? NSData {
                 let (json: AnyObject?, error) = self.parse(data)
                 if let e = error {
                     return Either<Result, Promise<Result>>.bind(Promise<Result>.reject(e))

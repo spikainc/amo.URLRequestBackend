@@ -23,6 +23,6 @@ class JSONParserPluginTests: XCTestCase {
         let data = body.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
         let (json: AnyObject?, error) = self.plugin.parse(data)
         XCTAssertNotNil(json)
-        XCTAssertEqual("b", json?["a"] as String)
+        XCTAssertEqual("b", json?["a"] as! String)
     }
 }

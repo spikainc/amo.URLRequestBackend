@@ -36,6 +36,6 @@ public struct Util {
     }
     
     public static func escapeString(s: String) -> String {
-        return CFURLCreateStringByAddingPercentEscapes(nil, s, nil, " !\"#$%&'()*+,/:;<=>?@[\\]^`{|}", CFStringBuiltInEncodings.UTF8.rawValue)
+        return CFURLCreateStringByAddingPercentEscapes(nil, s, nil, " !\"#$%&'()*+,/:;<=>?@[\\]^`{|}", CFStringBuiltInEncodings.UTF8.rawValue) as! String
     }
 }
