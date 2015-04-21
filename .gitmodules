@@ -1,3 +1,3 @@
 [submodule "vendor/Promise"]
 	path = vendor/Promise
-	url = git@github.com:sora0077/amo.Promise.git
+	url = git@github.com:spikainc/amo.Promise.git
