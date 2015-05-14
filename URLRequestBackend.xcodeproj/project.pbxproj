@@ -19,8 +19,6 @@
 		BB5E28361A679D6000FCF1E3 /* QueryEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E28351A679D6000FCF1E3 /* QueryEncoderTests.swift */; };
 		BB5E28381A67A0F100FCF1E3 /* UtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E28371A67A0F100FCF1E3 /* UtilTests.swift */; };
 		BB5E283A1A67A39100FCF1E3 /* FormURLEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5E28391A67A39100FCF1E3 /* FormURLEncoder.swift */; };
-		BBA410761A660996007F920F /* Promise.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BBA410701A660973007F920F /* Promise.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		BBA410E81A66B5D2007F920F /* Either.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BBA410E21A66B5C3007F920F /* Either.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D95429EA1AAD4C9F00A52A1A /* FormURLEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95429E91AAD4C9F00A52A1A /* FormURLEncoderTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,21 +73,6 @@
 			remoteInfo = Either;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		BBA410751A660983007F920F /* Copy Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				BBA410E81A66B5D2007F920F /* Either.framework in Copy Frameworks */,
-				BBA410761A660996007F920F /* Promise.framework in Copy Frameworks */,
-			);
-			name = "Copy Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		BB597B671A656D36002EEF5D /* URLRequestBackend.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = URLRequestBackend.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -275,7 +258,6 @@
 				BB597B631A656D36002EEF5D /* Frameworks */,
 				BB597B641A656D36002EEF5D /* Headers */,
 				BB597B651A656D36002EEF5D /* Resources */,
-				BBA410751A660983007F920F /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
