@@ -38,14 +38,14 @@ public class Manager {
     }
     
     public func request(request: NSURLRequest, context: AnyObject? = nil) -> Promise<Result> {
-        var mutableRequest = request.mutableCopy() as! NSMutableURLRequest
+        let mutableRequest = request.mutableCopy() as! NSMutableURLRequest
         var requestPromise = Promise<Request>.resolve((mutableRequest, context))
         for plugin in self.plugins {
             if let intercept = plugin.requestInterceptor() {
                 requestPromise = requestPromise.then(intercept)
             }
             if let intercept = plugin.requestErrorInterceptor() {
-                requestPromise = requestPromise.catch(intercept)
+                requestPromise = requestPromise.fail(intercept)
             }
         }
         
@@ -57,7 +57,7 @@ public class Manager {
             }
             
             if let intercept = plugin.resultErrorInterceptor() {
-                resultPromise = resultPromise.catch(intercept)
+                resultPromise = resultPromise.fail(intercept)
             }
         }
         
