@@ -72,7 +72,7 @@ public func HTTPRequestHandler(manager: Manager) -> RequestHandler {
                 if error == nil {
                     deferred.resolve((request, response, data))
                 } else {
-                    deferred.reject(error)
+                    deferred.reject(error ?? NSError(domain: "", code: 000, userInfo: nil)) // TODO: ダミーのエラーを当て込んでるだけなのできちんとしたエラー処理を行う
                 }
             })
         })
