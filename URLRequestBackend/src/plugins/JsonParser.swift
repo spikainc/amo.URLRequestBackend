@@ -23,11 +23,11 @@ extension Plugin {
         
         public func interceptResult(result: Result) -> Either<Result, Promise<Result>> {
             if let data = result.data as? NSData {
-                let (json: AnyObject?, error) = self.parse(data)
-                if let e = error {
+                let ret: (json: AnyObject?, error: NSError?) = self.parse(data)
+                if let e = ret.error {
                     return Either<Result, Promise<Result>>.bind(Promise<Result>.reject(e))
                 }
-                return Either<Result, Promise<Result>>.bind((result.request, result.response, json))
+                return Either<Result, Promise<Result>>.bind((result.request, result.response, ret.json))
             }
             return Either<Result, Promise<Result>>.bind(result)
         }
@@ -38,9 +38,9 @@ extension Plugin {
             }
             
             var error: NSError?
-            let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments, error: &error)
+            let json: AnyObject? = try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) // TODO: throwに対してcatch対応
             
-            return (json, error)
+            return (json, nil)
         }
     }
 }
