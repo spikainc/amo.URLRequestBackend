@@ -15,7 +15,7 @@ public struct Util {
             components += escapeComponents(key, value)
         }
         
-        return join("&", components)
+        return components.joinWithSeparator("&")
     }
     
     public static func escapeComponents(key: String, _ value: AnyObject) -> [String] {
