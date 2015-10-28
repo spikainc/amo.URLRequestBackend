@@ -51,7 +51,7 @@ public class Manager {
         
         var resultPromise = requestPromise.then(self.requestHandler(self))
         
-        for plugin in reverse(self.plugins) {
+        for plugin in self.plugins.reverse() {
             if let intercept = plugin.resultInterceptor() {
                 resultPromise = resultPromise.then(intercept)
             }
