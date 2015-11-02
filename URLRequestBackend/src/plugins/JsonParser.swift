@@ -37,10 +37,13 @@ extension Plugin {
                 return (nil, nil)
             }
             
-            var error: NSError?
-            let json: AnyObject? = try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) // TODO: throwに対してcatch対応
-            
-            return (json, nil)
+            do {
+                let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                return (json, nil)
+            }
+            catch {
+                return (nil, error as NSError)
+            }
         }
     }
 }
