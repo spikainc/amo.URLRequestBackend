@@ -38,26 +38,26 @@ public class Manager {
     }
     
     public func request(request: NSURLRequest, context: AnyObject? = nil) -> Promise<Result> {
-        var mutableRequest = request.mutableCopy() as! NSMutableURLRequest
+        let mutableRequest = request.mutableCopy() as! NSMutableURLRequest
         var requestPromise = Promise<Request>.resolve((mutableRequest, context))
         for plugin in self.plugins {
             if let intercept = plugin.requestInterceptor() {
                 requestPromise = requestPromise.then(intercept)
             }
             if let intercept = plugin.requestErrorInterceptor() {
-                requestPromise = requestPromise.catch(intercept)
+                requestPromise = requestPromise.fail(intercept)
             }
         }
         
         var resultPromise = requestPromise.then(self.requestHandler(self))
         
-        for plugin in reverse(self.plugins) {
+        for plugin in self.plugins.reverse() {
             if let intercept = plugin.resultInterceptor() {
                 resultPromise = resultPromise.then(intercept)
             }
             
             if let intercept = plugin.resultErrorInterceptor() {
-                resultPromise = resultPromise.catch(intercept)
+                resultPromise = resultPromise.fail(intercept)
             }
         }
         
@@ -72,7 +72,7 @@ public func HTTPRequestHandler(manager: Manager) -> RequestHandler {
                 if error == nil {
                     deferred.resolve((request, response, data))
                 } else {
-                    deferred.reject(error)
+                    deferred.reject(error ?? NSError(domain: "", code: 000, userInfo: nil)) // TODO: ダミーのエラーを当て込んでるだけなのできちんとしたエラー処理を行う
                 }
             })
         })

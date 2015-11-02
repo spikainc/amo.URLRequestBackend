@@ -15,7 +15,7 @@ public struct Util {
             components += escapeComponents(key, value)
         }
         
-        return join("&", components)
+        return components.joinWithSeparator("&")
     }
     
     public static func escapeComponents(key: String, _ value: AnyObject) -> [String] {
@@ -36,6 +36,6 @@ public struct Util {
     }
     
     public static func escapeString(s: String) -> String {
-        return CFURLCreateStringByAddingPercentEscapes(nil, s, nil, " !\"#$%&'()*+,/:;<=>?@[\\]^`{|}", CFStringBuiltInEncodings.UTF8.rawValue) as! String
+        return CFURLCreateStringByAddingPercentEscapes(nil, s, nil, " !\"#$%&'()*+,/:;<=>?@[\\]^`{|}", CFStringBuiltInEncodings.UTF8.rawValue) as String
     }
 }

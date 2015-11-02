@@ -21,8 +21,8 @@ class JSONParserPluginTests: XCTestCase {
     func test_parseを使ってJSONをparseできる() {
         let body = "{\"a\": \"b\"}"
         let data = body.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
-        let (json: AnyObject?, error) = self.plugin.parse(data)
-        XCTAssertNotNil(json)
-        XCTAssertEqual("b", json?["a"] as! String)
+        let ret: (json: AnyObject?, error: NSError?) = self.plugin.parse(data)
+        XCTAssertNotNil(ret.json)
+        XCTAssertEqual("b", ret.json?["a"] as! String)
     }
 }
